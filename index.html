@@ -65,6 +65,15 @@
     <label for="ambientIntensity">環境光強度</label>
     <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
 
+<label for="cameraFov">相機視角 (FOV)</label>
+<input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+
+<label for="cameraNear">近裁切面 (Near)</label>
+<input type="range" id="cameraNear" min="0.1" max="5" step="0.1" value="0.1">
+
+<label for="cameraFar">遠裁切面 (Far)</label>
+<input type="range" id="cameraFar" min="50" max="200" step="1" value="100">
+
     <label for="directionalIntensity">方向光強度</label>
     <input type="range" id="directionalIntensity" min="0" max="5" step="0.1" value="2">
 
@@ -81,4 +90,5 @@
   <script type="module" src="./main.js"></script>
 </body>
 </html>
+
 
