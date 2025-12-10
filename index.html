@@ -2,51 +2,46 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
-  <title>燈具 360° 展示</title>
+  <title>燈具 360° 旋轉展示</title>
   <style>
     body {
       margin: 0;
-      background: #111;
-      overflow: hidden;
+      background: #111; /* 預設黑色背景 */
+      overflow: hidden; /* ✅ 避免出現捲軸 */
     }
 
     canvas {
+      width: 100vw;   /* ✅ 全螢幕寬 */
+      height: 100vh;  /* ✅ 全螢幕高 */
       display: block;
-      width: 100%;
-      height: 100%;
     }
 
     /* 控制面板 */
     #controls {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.95);
+      position: fixed;   /* ✅ 固定位置，不受 flex 影響 */
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.9);
       padding: 12px;
-      border-top: 2px solid #ccc;
+      border-radius: 8px;
       font-family: sans-serif;
-      font-size: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-around;
+      font-size: 14px;
+      width: 220px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* ✅ 增加陰影，避免和背景混在一起 */
     }
 
     #controls label {
-      flex: 1 1 100%;
-      margin: 6px 0 2px;
+      display: block;
+      margin: 8px 0 4px;
       font-weight: bold;
     }
 
     #controls input[type="range"] {
       width: 100%;
-      height: 30px;
     }
 
     #controls input[type="checkbox"] {
-      transform: scale(1.5);
-      margin-right: 8px;
+      margin-right: 6px;
     }
   </style>
 </head>
@@ -72,15 +67,12 @@
 
     <label for="lightZ">方向光 Z</label>
     <input type="range" id="lightZ" min="-10" max="10" step="0.1" value="4">
-
-    <label for="cameraFov">相機視角 (FOV)</label>
-    <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
   </div>
 
   <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
 
-  <!-- ✅ 再載入 main.js (裡面有 Three.js import) -->
+  <!-- ✅ 再載入 main.js -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
