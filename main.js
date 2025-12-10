@@ -77,15 +77,6 @@ document.getElementById("directionalIntensity").addEventListener("input", e => {
   light.intensity = parseFloat(e.target.value);
 });
 
-document.getElementById("lightX").addEventListener("input", e => {
-  light.position.x = parseFloat(e.target.value);
-});
-document.getElementById("lightY").addEventListener("input", e => {
-  light.position.y = parseFloat(e.target.value);
-});
-document.getElementById("lightZ").addEventListener("input", e => {
-  light.position.z = parseFloat(e.target.value);
-});
 
 // ✅ 載入 EXR HDRI 環境光
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
