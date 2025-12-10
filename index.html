@@ -4,31 +4,73 @@
   <meta charset="UTF-8" />
   <title>燈具 360° 旋轉展示</title>
   <style>
-body {
-  margin: 0;                        /* 移除瀏覽器預設邊距 */
-  background: #f5f5f5;              /* 整個網頁背景顏色（灰白色） */
-  display: flex;                    /* 使用 Flexbox 排版 */
-  justify-content: center;          /* 水平置中 */
-  align-items: center;              /* 垂直置中 */
-  height: 100vh;                    /* 高度佔滿整個視窗 */
-}
+    body {
+      margin: 0;
+      background: #111; /* 預設黑色背景 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-canvas {
-  width: 500px;                     /* Canvas 顯示寬度 */
-  height: 500px;                    /* Canvas 顯示高度 */
-  background: #ffffff;              /* Canvas 背景顏色（白色） */
-  border-radius: 16px;              /* 圓角邊框 */
-}
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+
+    /* 控制面板 */
+    #controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: sans-serif;
+      font-size: 14px;
+      width: 220px;
+    }
+
+    #controls label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: bold;
+    }
+
+    #controls input[type="range"] {
+      width: 100%;
+    }
+
+    #controls input[type="checkbox"] {
+      margin-right: 6px;
+    }
   </style>
 </head>
 <body>
-  <script src="./libs/dat.gui.min.js"></script>
+  <!-- 控制面板 -->
+  <div id="controls">
+    <label><input type="checkbox" id="autoRotate"> 自動旋轉</label>
+
+    <label for="rotateSpeed">旋轉速度</label>
+    <input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
+
+    <label for="ambientIntensity">環境光強度</label>
+    <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+
+    <label for="directionalIntensity">方向光強度</label>
+    <input type="range" id="directionalIntensity" min="0" max="5" step="0.1" value="2">
+
+    <label for="lightX">方向光 X</label>
+    <input type="range" id="lightX" min="-10" max="10" step="0.1" value="2">
+
+    <label for="lightY">方向光 Y</label>
+    <input type="range" id="lightY" min="-10" max="10" step="0.1" value="3">
+
+    <label for="lightZ">方向光 Z</label>
+    <input type="range" id="lightZ" min="-10" max="10" step="0.1" value="4">
+  </div>
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>
-
-
-
-
-
-
