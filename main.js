@@ -64,10 +64,6 @@ document.getElementById("rotateSpeed").addEventListener("input", e => {
   settings.rotateSpeed = parseFloat(e.target.value);
 });
 
-document.getElementById("ambientIntensity").addEventListener("input", e => {
-  ambientLight.intensity = parseFloat(e.target.value);
-});
-
 document.getElementById("cameraFov").addEventListener("input", e => {
   camera.fov = parseFloat(e.target.value);
   camera.updateProjectionMatrix();
@@ -82,18 +78,26 @@ document.getElementById("directionalIntensity").addEventListener("input", e => {
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 
+let envMesh;
+
 new EXRLoader()
-  .setPath("./hdr/") // HDRI 檔案資料夾
+  .setPath("./hdr/")
   .load("lebombo.exr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
     scene.environment = envMap;   // ✅ 模型反射用
-    scene.background = new THREE.Color(0x000000); // 背景保持黑色
+    scene.background = envMap;    // ✅ 同時顯示背景
+
+    // 建立球體來承載 HDRI
+    const geometry = new THREE.SphereGeometry(50, 64, 64);
+    geometry.scale(-1, 1, 1); // ✅ 反轉球體，讓貼圖在內側
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    envMesh = new THREE.Mesh(geometry, material);
+    scene.add(envMesh);
 
     texture.dispose();
     pmremGenerator.dispose();
   });
-
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
