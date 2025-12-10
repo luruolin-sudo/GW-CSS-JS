@@ -55,7 +55,7 @@
   </style>
 </head>
 <body>
-  <!-- 控制面板 -->
+   <!-- 控制面板 -->
   <div id="controls">
     <label><input type="checkbox" id="autoRotate"> 自動旋轉</label>
 
@@ -64,10 +64,6 @@
 
     <label for="ambientIntensity">環境光強度</label>
     <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
-
-<label for="cameraFov">相機視角 (FOV)</label>
-<input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
-
 
     <label for="directionalIntensity">方向光強度</label>
     <input type="range" id="directionalIntensity" min="0" max="5" step="0.1" value="2">
@@ -80,8 +76,15 @@
 
     <label for="lightZ">方向光 Z</label>
     <input type="range" id="lightZ" min="-10" max="10" step="0.1" value="4">
+
+    <label for="cameraFov">相機視角 (FOV)</label>
+    <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
   </div>
 
+  <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
+
+  <!-- ✅ 再載入 main.js (裡面有 Three.js import) -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
