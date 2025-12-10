@@ -67,6 +67,11 @@ document.getElementById("ambientIntensity").addEventListener("input", e => {
   ambientLight.intensity = parseFloat(e.target.value);
 });
 
+document.getElementById("cameraFov").addEventListener("input", e => {
+  camera.fov = parseFloat(e.target.value);
+  camera.updateProjectionMatrix();
+});
+
 document.getElementById("directionalIntensity").addEventListener("input", e => {
   light.intensity = parseFloat(e.target.value);
 });
