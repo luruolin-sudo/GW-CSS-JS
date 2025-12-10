@@ -8,16 +8,11 @@ const settings = {
   autoRotate: false,   // 預設不旋轉
   rotateSpeed: 0.01,   // 預設旋轉速度
   ambientIntensity: 1, // 環境光強度
-  directionalIntensity: 2, // 方向光強度
-  lightX: 2,   // 方向光初始位置 X
-  lightY: 3,   // 方向光初始位置 Y
-  lightZ: 4    // 方向光初始位置 Z
+  envRotation: 0       // HDRI 環境旋轉角度
 };
 
 // 建立場景
 const scene = new THREE.Scene();
-scene.background = envMap; // ✅ 把 HDRI 當背景顯示
-scene.environment = envMap; // ✅ 同時用來做反射
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -31,12 +26,11 @@ window.addEventListener("resize", () => {
 
 // 建立相機
 const camera = new THREE.PerspectiveCamera(
-  45,   // FOV (視角角度)
-  renderer.domElement.width / renderer.domElement.height, // 畫面寬高比
-  0.1,  // 最近能看到的距離
-  100   // 最遠能看到的距離
+  45,
+  renderer.domElement.width / renderer.domElement.height,
+  0.1,
+  100
 );
-
 camera.position.set(1, 1, 0.2);
 camera.lookAt(0, 0, 0);
 
@@ -47,15 +41,11 @@ controls.dampingFactor = 0.05;
 controls.minDistance = 1;
 controls.maxDistance = 10;
 
-// 燈光
+// 環境光
 const ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity);
 scene.add(ambientLight);
 
-const light = new THREE.DirectionalLight(0xffffff, settings.directionalIntensity);
-light.position.set(settings.lightX, settings.lightY, settings.lightZ);
-scene.add(light);
-
-// ✅ 綁定控制面板事件 (HTML + CSS)
+// ✅ 綁定控制面板事件
 document.getElementById("autoRotate").addEventListener("change", e => {
   settings.autoRotate = e.target.checked;
 });
@@ -69,10 +59,13 @@ document.getElementById("cameraFov").addEventListener("input", e => {
   camera.updateProjectionMatrix();
 });
 
-document.getElementById("directionalIntensity").addEventListener("input", e => {
-  light.intensity = parseFloat(e.target.value);
+document.getElementById("ambientIntensity").addEventListener("input", e => {
+  ambientLight.intensity = parseFloat(e.target.value);
 });
 
+document.getElementById("envRotation").addEventListener("input", e => {
+  settings.envRotation = THREE.MathUtils.degToRad(parseFloat(e.target.value));
+});
 
 // ✅ 載入 EXR HDRI 環境光
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -98,6 +91,7 @@ new EXRLoader()
     texture.dispose();
     pmremGenerator.dispose();
   });
+
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
@@ -112,6 +106,10 @@ function animate() {
 
   if (model && settings.autoRotate) {
     model.rotation.y += settings.rotateSpeed;
+  }
+
+  if (envMesh) {
+    envMesh.rotation.y = settings.envRotation; // ✅ HDRI 旋轉
   }
 
   controls.update();
