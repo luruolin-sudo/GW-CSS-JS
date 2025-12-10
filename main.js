@@ -43,24 +43,31 @@ const light = new THREE.DirectionalLight(0xffffff, 2); // 預設白光，強度 
 light.position.set(2, 3, 4);
 scene.add(light);
 
-// ✅ GUI 面板設定
-const gui = new dat.GUI();
-const settings = {
-  autoRotate: false,   // false 關、true 開
-  rotateSpeed: 0.01,
-  ambientIntensity: 1,
-  directionalIntensity: 2 // 初始值同步 2
-};
-
-gui.add(settings, "autoRotate").name("自動旋轉");
-gui.add(settings, "rotateSpeed", 0.0005, 0.05).name("旋轉速度");
-
-gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v => {
-  ambientLight.intensity = v;
+// 綁定控制面板事件
+document.getElementById("autoRotate").addEventListener("change", e => {
+  settings.autoRotate = e.target.checked;
 });
 
-gui.add(settings, "directionalIntensity", 0, 5).name("方向光強度").onChange(v => {
-  light.intensity = v;
+document.getElementById("rotateSpeed").addEventListener("input", e => {
+  settings.rotateSpeed = parseFloat(e.target.value);
+});
+
+document.getElementById("ambientIntensity").addEventListener("input", e => {
+  ambientLight.intensity = parseFloat(e.target.value);
+});
+
+document.getElementById("directionalIntensity").addEventListener("input", e => {
+  light.intensity = parseFloat(e.target.value);
+});
+
+document.getElementById("lightX").addEventListener("input", e => {
+  light.position.x = parseFloat(e.target.value);
+});
+document.getElementById("lightY").addEventListener("input", e => {
+  light.position.y = parseFloat(e.target.value);
+});
+document.getElementById("lightZ").addEventListener("input", e => {
+  light.position.z = parseFloat(e.target.value);
 });
 
 // ✅ 燈光方向控制
