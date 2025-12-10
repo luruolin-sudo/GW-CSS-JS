@@ -16,7 +16,8 @@ const settings = {
 
 // 建立場景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0.15, 0.15, 0.15); // ✅ 黑色背景
+scene.background = envMap; // ✅ 把 HDRI 當背景顯示
+scene.environment = envMap; // ✅ 同時用來做反射
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
