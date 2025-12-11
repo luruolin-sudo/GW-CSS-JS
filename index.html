@@ -2,77 +2,146 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
-  <title>燈具 360° 旋轉展示</title>
+  <title>燈具 360° 展示</title>
+
   <style>
     body {
       margin: 0;
-      background: #111; /* 預設黑色背景 */
-      overflow: hidden; /* ✅ 避免出現捲軸 */
+      background: #111;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     canvas {
-      width: 100vw;   /* ✅ 全螢幕寬 */
-      height: 100vh;  /* ✅ 全螢幕高 */
+      width: 100vw;
+      height: 100vh;
       display: block;
     }
 
-    /* 控制面板 */
-    #controls {
-      position: fixed;   /* ✅ 固定位置，不受 flex 影響 */
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 12px;
-      border-radius: 8px;
-      font-family: sans-serif;
-      font-size: 14px;
-      width: 220px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* ✅ 增加陰影，避免和背景混在一起 */
+    /* ✅ 底部工具列 */
+    #ui-bar {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      z-index: 10;
     }
 
-    #controls label {
-      display: block;
-      margin: 8px 0 4px;
-      font-weight: bold;
+    .ui-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    #controls input[type="range"] {
-      width: 100%;
+    /* ✅ 模型切換按鈕 */
+    .model-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .model-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
     }
 
-    #controls input[type="checkbox"] {
-      margin-right: 6px;
+    /* ✅ icon 按鈕 */
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .icon-btn img {
+      width: 20px;
+      height: 20px;
+      filter: invert(1);
+      opacity: 0.9;
+      transition: 0.2s;
+    }
+    .icon-btn:hover img {
+      opacity: 1;
+      filter: invert(1) brightness(1.4);
+    }
+
+    /* ✅ 滑桿區 */
+    .sliders {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slider-label {
+      width: 40px;
+      text-align: right;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    .slider-row input[type="range"] {
+      width: 160px;
     }
   </style>
 </head>
+
 <body>
-  <!-- 控制面板 -->
-  <div id="controls">
-<label for="rotateSpeed">自動旋轉速度</label>
-<input type="range" id="rotateSpeed" min="0" max="0.01" step="0.0005" value="0.003">
 
-<label for="ambientIntensity">環境光強度</label>
-<input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+  <!-- ✅ 底部工具列 -->
+  <div id="ui-bar">
 
-<label for="cameraFov">相機透視</label>
-<input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+    <!-- ✅ 左側：模型切換 -->
+    <div class="ui-section">
+      <button class="model-btn" data-model="BL-360.glb">4x1</button>
+      <button class="model-btn" data-model="BL-480.glb">2x2</button>
+    </div>
 
+    <!-- ✅ 中間：icon 功能 -->
+    <div class="ui-section">
+      <button class="icon-btn"><img src="./icons/icon-cube.svg" alt="模型"></button>
+      <button class="icon-btn"><img src="./icons/icon-light.svg" alt="光源"></button>
+      <button class="icon-btn"><img src="./icons/icon-camera.svg" alt="相機"></button>
+    </div>
 
-  <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
-  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
+    <!-- ✅ 右側：滑桿 -->
+    <div class="ui-section sliders">
+      <div class="slider-row">
+        <span class="slider-label">旋轉</span>
+        <input type="range" id="rotateSpeed" min="0" max="0.01" step="0.0005" value="0.003">
+      </div>
 
-  <!-- ✅ 再載入 main.js -->
+      <div class="slider-row">
+        <span class="slider-label">光源</span>
+        <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">視角</span>
+        <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ✅ Three.js 主程式 -->
   <script type="module" src="./main.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
