@@ -5,120 +5,150 @@
   <title>燈具 360° 展示</title>
 
   <style>
-  body {
-  margin: 0;
-  background: #111;
-  overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
+    /* ---------------------------------------------------------
+       ✅ 全域設定：背景、字體、canvas 全螢幕
+    --------------------------------------------------------- */
+    body {
+      margin: 0;
+      background: #111;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-canvas {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-}
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
 
-/* ✅ 底部工具列：更像 App */
-#ui-bar {
-  position: fixed;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  padding: 14px 26px;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(14px);
-  color: #fff;
-  z-index: 10;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-}
+    /* ---------------------------------------------------------
+       ✅ 底部控制條（你的設計風格：膠囊、模糊、透明）
+    --------------------------------------------------------- */
+    #ui-bar {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 18px 32px;
+      border-radius: 28px;
+      background: rgba(0, 0, 0, 0.40);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      z-index: 10;
+    }
 
-/* ✅ 區塊間距更緊湊 */
-.ui-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+    /* 區塊（模型切換 / icon / 滑桿） */
+    .ui-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-/* ✅ 模型切換按鈕：像小卡片 */
-.model-btn {
-  padding: 4px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  cursor: pointer;
-  font-size: 12px;
-  transition: 0.2s;
-}
-.model-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-.model-btn.active {
-  background: rgba(255, 255, 255, 0.35);
-  border-color: rgba(255, 255, 255, 0.8);
-}
+    /* ---------------------------------------------------------
+       ✅ 模型切換按鈕（小卡片風格）
+    --------------------------------------------------------- */
+    .model-btn {
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.10);
+      color: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .model-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .model-btn.active {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
 
-/* ✅ icon 按鈕：更大、更像 App */
-.icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255, 255, 255, 0.10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.icon-btn svg {
-  width: 22px;
-  height: 22px;
-  color: white;      /* 讓 fill="currentColor" 生效 */
-  opacity: 0.9;
-  transition: 0.2s;
-}
+    /* ---------------------------------------------------------
+       ✅ icon 按鈕（inline SVG 專用）
+    --------------------------------------------------------- */
+    .icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.25s;
+      border: none;
+    }
 
-.icon-btn:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
+    /* SVG 本體（顏色用 currentColor 控制） */
+    .icon-btn svg {
+      width: 26px;
+      height: 26px;
+      color: white;
+      opacity: 0.85;
+      transition: 0.25s;
+    }
 
-.icon-btn:hover svg {
-  opacity: 1;
-  color: #ffd700;    /* hover 時變亮或變色 */
-}
+    /* hover 效果 */
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .icon-btn:hover svg {
+      opacity: 1;
+      color: #ffd700;
+    }
 
-/* ✅ 滑桿區：更緊湊、更乾淨 */
-.sliders {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 6px;
-}
-.slider-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.slider-label {
-  width: 36px;
-  text-align: right;
-  font-size: 11px;
-  opacity: 0.75;
-}
-.slider-row input[type="range"] {
-  width: 150px;
-  height: 4px;
-}
+    /* ---------------------------------------------------------
+       ✅ 滑桿（更細、更現代）
+    --------------------------------------------------------- */
+    .sliders {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slider-label {
+      width: 36px;
+      text-align: right;
+      font-size: 11px;
+      opacity: 0.75;
+    }
+
+    .slider-row input[type="range"] {
+      width: 160px;
+      height: 2px;
+      appearance: none;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+    }
+
+    /* 滑塊 */
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- ✅ 底部工具列 -->
+  <!-- ---------------------------------------------------------
+       ✅ 底部控制條（整個 UI 的容器）
+  --------------------------------------------------------- -->
   <div id="ui-bar">
 
     <!-- ✅ 左側：模型切換 -->
@@ -127,11 +157,31 @@ canvas {
       <button class="model-btn" data-model="BL-480.glb">2x2</button>
     </div>
 
-    <!-- ✅ 中間：icon 功能 -->
+    <!-- ✅ 中間：icon（使用 inline SVG） -->
     <div class="ui-section">
-      <button class="icon-btn"><img src="./icons/icon-cube.svg" alt="模型"></button>
-      <button class="icon-btn"><img src="./icons/icon-light.svg" alt="光源"></button>
-      <button class="icon-btn"><img src="./icons/icon-camera.svg" alt="相機"></button>
+
+      <!-- ✅ cube icon -->
+      <button class="icon-btn" aria-label="模型">
+        <svg viewBox="0 0 44.46 44.46" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M30.81,33.08H13.56c-1.88,0-3.41-1.57-3.41-3.49v-12.9c0-1.88,1.53-3.41,3.41-3.41h2.28v-.84c0-2.31,1.97-2.31,3.41-2.31h5.69c1.43,0,3.58,0,3.58,2.31v.84h2.3c1.89,0,3.49,1.56,3.49,3.41v12.9c0,1.93-1.57,3.49-3.49,3.49Z"/>
+          <path fill="currentColor" d="M22.23,30.19c-3.52,0-6.39-2.82-6.39-6.28s2.87-6.37,6.39-6.37,6.29,2.86,6.29,6.37-2.76,6.28-6.29,6.28Z"/>
+        </svg>
+      </button>
+
+      <!-- ✅ light icon -->
+      <button class="icon-btn" aria-label="光源">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.53 1.39 4.73 3.44 5.93L9 19h6l.56-4.07A7 7 0 0 0 19 9a7 7 0 0 0-7-7z"/>
+        </svg>
+      </button>
+
+      <!-- ✅ camera icon -->
+      <button class="icon-btn" aria-label="相機">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M20 5h-3.2l-1.6-2H8.8L7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-8 13a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+        </svg>
+      </button>
+
     </div>
 
     <!-- ✅ 右側：滑桿 -->
@@ -159,5 +209,3 @@ canvas {
 
 </body>
 </html>
-
-
