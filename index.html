@@ -1,83 +1,85 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <title>燈具 360° 旋轉展示</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Viewer</title>
+
+  <!-- ✅ 手機版美化控制面板 CSS -->
   <style>
-    body {
-      margin: 0;
-      background: #111; /* 預設黑色背景 */
-      overflow: hidden; /* ✅ 避免出現捲軸 */
-    }
-
-    canvas {
-      width: 100vw;   /* ✅ 全螢幕寬 */
-      height: 100vh;  /* ✅ 全螢幕高 */
-      display: block;
-    }
-
-    /* 控制面板 */
+    /* ✅ 控制面板外觀 */
     #controls {
-      position: fixed;   /* ✅ 固定位置，不受 flex 影響 */
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.9);
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 260px;
       padding: 12px;
-      border-radius: 8px;
-      font-family: sans-serif;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      color: white;
       font-size: 14px;
-      width: 220px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* ✅ 增加陰影，避免和背景混在一起 */
+      z-index: 10;
     }
 
-    #controls label {
-      display: block;
-      margin: 8px 0 4px;
-      font-weight: bold;
+    /* ✅ 每個控制項 */
+    .ctrl-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
     }
 
+    /* ✅ 滑桿美化 */
     #controls input[type="range"] {
       width: 100%;
     }
 
-    #controls input[type="checkbox"] {
-      margin-right: 6px;
+    /* ✅ 手機版優化 */
+    @media (max-width: 600px) {
+      #controls {
+        width: calc(100% - 20px);
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 14px;
+        font-size: 16px;
+      }
+
+      .ctrl-item {
+        margin-bottom: 16px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <!-- 控制面板 -->
-<div id="controls">
-  <label class="ctrl-item">
-    <span>自動旋轉</span>
-    <input type="checkbox" id="autoRotate">
-  </label>
 
-  <label class="ctrl-item">
-    <span>旋轉速度</span>
-    <input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
-  </label>
+  <!-- ✅ 控制面板（手機版美化） -->
+  <div id="controls">
 
-  <label class="ctrl-item">
-    <span>相機透視</span>
-    <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
-  </label>
+    <label class="ctrl-item">
+      <span>自動旋轉</span>
+      <input type="checkbox" id="autoRotate">
+    </label>
 
-  <label class="ctrl-item">
-    <span>環境光強度</span>
-    <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
-  </label>
-</div>
+    <label class="ctrl-item">
+      <span>旋轉速度</span>
+      <input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
+    </label>
 
-  <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
-  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
+    <label class="ctrl-item">
+      <span>相機透視</span>
+      <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+    </label>
 
-  <!-- ✅ 再載入 main.js -->
-  <script type="module" src="./main.js"></script>
+    <label class="ctrl-item">
+      <span>環境光強度</span>
+      <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+    </label>
+
+  </div>
+
+  <!-- ✅ Three.js 主程式 -->
+  <script type="module" src="main.js"></script>
+
 </body>
 </html>
-
-
-
-
-
