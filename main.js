@@ -8,8 +8,7 @@ import * as fflate from "./libs/fflate.module.js";
 
 // ✅ 定義設定值物件
 const settings = {
-  ambientIntensity: 1,
-  rotateSpeed: 0.005,   // 預設旋轉速度
+  rotateSpeed: 0.003,   // ✅ 跟 HTML 的 value 一樣
   ambientIntensity: 1, // 環境光強度
   envRotation: 0       // HDRI 環境旋轉角度
 
