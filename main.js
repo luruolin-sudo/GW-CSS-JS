@@ -8,7 +8,7 @@ import { EXRLoader } from "./libs/EXRLoader.js";
 
 
 // ------------------------------------------------------
-// ✅ 控制面板設定值（可被 HTML 滑桿修改）
+// ✅ 控制面板設定值（由 HTML 滑桿控制）
 // ------------------------------------------------------
 const settings = {
   autoRotate: false,      // 模型是否自動旋轉
@@ -70,63 +70,62 @@ scene.add(ambientLight);
 // ------------------------------------------------------
 // ✅ HTML 控制面板事件綁定
 // ------------------------------------------------------
-// ✅ 監聽「自動旋轉」的 checkbox
-// 當使用者勾選或取消勾選時，更新 settings.autoRotate
+
+// ✅ 自動旋轉開關
 document.getElementById("autoRotate").addEventListener("change", e => {
-  settings.autoRotate = e.target.checked; // true = 自動旋轉 / false = 停止旋轉
+  settings.autoRotate = e.target.checked;
 });
 
-
-// ✅ 監聽「旋轉速度」滑桿
-// 使用者拖動滑桿時，更新模型旋轉速度
+// ✅ 模型旋轉速度
 document.getElementById("rotateSpeed").addEventListener("input", e => {
-  settings.rotateSpeed = parseFloat(e.target.value); // 旋轉速度（0.0005 ~ 0.05）
+  settings.rotateSpeed = parseFloat(e.target.value);
 });
 
-
-// ✅ 監聽「相機視角 FOV」滑桿
-// 使用者調整視角後，更新相機並重新計算投影矩陣
+// ✅ 相機視角 FOV
 document.getElementById("cameraFov").addEventListener("input", e => {
-  camera.fov = parseFloat(e.target.value); // 視角（20° ~ 100°）
-  camera.updateProjectionMatrix();         // ✅ 必須更新才能生效
+  camera.fov = parseFloat(e.target.value);
+  camera.updateProjectionMatrix(); // 必須更新才能生效
 });
 
-
-// ✅ 監聽「環境光強度」滑桿
-// 使用者調整後，更新 AmbientLight 的亮度
+// ✅ 環境光強度
 document.getElementById("ambientIntensity").addEventListener("input", e => {
-  ambientLight.intensity = parseFloat(e.target.value); // 亮度（0 ~ 2）
+  ambientLight.intensity = parseFloat(e.target.value);
 });
 
 // ✅ HDRI 旋轉滑桿
 document.getElementById("envRotation").addEventListener("input", e => {
   settings.envRotation = THREE.MathUtils.degToRad(parseFloat(e.target.value));
-  updateHDRI(settings.envRotation); // ✅ 更新 HDRI 光照
+  updateHDRI(settings.envRotation); // ✅ 更新 HDRI 光照 + 背景
 });
 
 
 // ------------------------------------------------------
-// ✅ HDRI 旋轉核心：旋轉 EXR → 重新 PMREM → 更新光照
+// ✅ HDRI 光照旋轉核心：旋轉 EXR → 重新 PMREM → 更新光照
 // ------------------------------------------------------
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 
 let hdrTexture = null;   // 原始 EXR HDRI
 let envMap = null;       // PMREM 生成的光照貼圖
+let bgMesh = null;       // HDRI 背景球體
 
 function updateHDRI(angleRad) {
   if (!hdrTexture) return;
 
-  // ✅ 旋轉原始 HDRI
+  // ✅ 旋轉原始 HDRI（光照來源）
   hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
   hdrTexture.rotation = angleRad;
 
   // ✅ 重新 PMREM（產生新的光照貼圖）
   const newEnvMap = pmremGenerator.fromEquirectangular(hdrTexture).texture;
 
-  // ✅ 更新場景光照與背景
+  // ✅ 更新場景光照
   scene.environment = newEnvMap;
-  scene.background = hdrTexture;
+
+  // ✅ 背景球體同步旋轉
+  if (bgMesh) {
+    bgMesh.rotation.y = angleRad;
+  }
 
   // ✅ 清除舊的 envMap（避免記憶體累積）
   if (envMap) envMap.dispose();
@@ -135,13 +134,23 @@ function updateHDRI(angleRad) {
 
 
 // ------------------------------------------------------
-// ✅ 載入 EXR HDRI
+// ✅ 載入 EXR HDRI（背景 + 光照）
 // ------------------------------------------------------
 new EXRLoader()
   .setPath("./hdr/")
   .load("lebombo.exr", function (texture) {
-    hdrTexture = texture;  // 保存原始 HDRI
-    updateHDRI(0);         // 初始角度 0°
+
+    hdrTexture = texture; // 保存原始 HDRI
+
+    // ✅ 建立 HDRI 背景球體（可旋轉）
+    const bgGeo = new THREE.SphereGeometry(50, 64, 64);
+    bgGeo.scale(-1, 1, 1); // 反轉球體，貼圖在內側
+
+    const bgMat = new THREE.MeshBasicMaterial({ map: hdrTexture });
+    bgMesh = new THREE.Mesh(bgGeo, bgMat);
+    scene.add(bgMesh);
+
+    updateHDRI(0); // 初始角度
   });
 
 
