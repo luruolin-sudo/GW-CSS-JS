@@ -8,7 +8,8 @@ import * as fflate from "./libs/fflate.module.js";
 
 // ✅ 定義設定值物件
 const settings = {
-  autoRotate: false,   // 預設不旋轉
+  rotateSpeed: 0,       // ✅ 預設不轉
+  ambientIntensity: 1,
   rotateSpeed: 0.005,   // 預設旋轉速度
   ambientIntensity: 1, // 環境光強度
   envRotation: 0       // HDRI 環境旋轉角度
@@ -49,10 +50,9 @@ const ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity)
 scene.add(ambientLight);
 
 // ✅ 綁定控制面板事件
-document.getElementById("autoRotate").addEventListener("change", e => {
-  settings.autoRotate = e.target.checked;
+document.getElementById("rotateSpeed").addEventListener("input", e => {
+  settings.rotateSpeed = parseFloat(e.target.value);
 });
-
 
 document.getElementById("cameraFov").addEventListener("input", e => {
   camera.fov = parseFloat(e.target.value);
@@ -101,9 +101,9 @@ loader.load("./model/BL-360.glb", function (gltf) {
 function animate() {
   requestAnimationFrame(animate);
 
-  if (model && settings.autoRotate) {
-    model.rotation.y += settings.rotateSpeed;
-  }
+if (model && settings.rotateSpeed > 0) {
+  model.rotation.y += settings.rotateSpeed;
+}
 
 
   controls.update();
