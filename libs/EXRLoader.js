@@ -1,3 +1,4 @@
+import * as fflate from './fflate.module.js';   // ✅ 加這行
 import {
   DataTextureLoader,
   DataUtils,
@@ -8,7 +9,7 @@ import {
   RedFormat,
   RGFormat,
   RGBAFormat
-} from './three.module.js';   // ✅ 改成相對路徑
+} from './three.module.js';
 
 // Referred to the original Industrial Light & Magic OpenEXR implementation and the TinyEXR / Syoyo Fujita
 // implementation, so I have preserved their copyright notices.
