@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>燈具 360° 旋轉展示</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111; /* 預設黑色背景 */
+      overflow: hidden; /* ✅ 避免出現捲軸 */
+    }
+
+    canvas {
+      width: 100vw;   /* ✅ 全螢幕寬 */
+      height: 100vh;  /* ✅ 全螢幕高 */
+      display: block;
+    }
+
+    /* 控制面板 */
+    #controls {
+      position: fixed;   /* ✅ 固定位置，不受 flex 影響 */
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: sans-serif;
+      font-size: 14px;
+      width: 220px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* ✅ 增加陰影，避免和背景混在一起 */
+    }
+
+    #controls label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: bold;
+    }
+
+    #controls input[type="range"] {
+      width: 100%;
+    }
+
+    #controls input[type="checkbox"] {
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 控制面板 -->
+  <div id="controls">
+<label><input type="checkbox" id="autoRotate"> 自動旋轉</label>
+
+<label for="rotateSpeed">旋轉速度</label>
+<input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
+
+<label for="ambientIntensity">環境光強度</label>
+<input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+
+<label for="cameraFov">相機視角 (FOV)</label>
+<input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+
+<label for="envRotation">環境光旋轉</label>
+<input type="range" id="envRotation" min="0" max="360" step="1" value="0">
+  </div>
+
+  <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
+
+  <!-- ✅ 再載入 main.js -->
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
+
+
+
+
