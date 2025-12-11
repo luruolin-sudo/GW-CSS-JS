@@ -79,8 +79,11 @@
   </div>
 
   <!-- ✅ Three.js 主程式 -->
-  <script src="./libs/fflate.module.js"></script>
+    <!-- ✅ 先載入 fflate（EXRLoader 需要它） -->
+  <script type="module" src="./libs/fflate.module.js"></script>
+  <script type="module" src="main.js"></script>
 
 </body>
 </html>
+
 
