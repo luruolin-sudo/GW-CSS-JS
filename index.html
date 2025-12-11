@@ -112,9 +112,46 @@ canvas {
   width: 150px;
   height: 4px;
 }
+ <!-- ✅ 底部工具列 -->
+  <div id="ui-bar">
+
+    <!-- ✅ 左側：模型切換 -->
+    <div class="ui-section">
+      <button class="model-btn" data-model="BL-360.glb">4x1</button>
+      <button class="model-btn" data-model="BL-480.glb">2x2</button>
+    </div>
+
+    <!-- ✅ 中間：icon 功能 -->
+    <div class="ui-section">
+      <button class="icon-btn"><img src="./icons/icon-cube.svg" alt="模型"></button>
+      <button class="icon-btn"><img src="./icons/icon-light.svg" alt="光源"></button>
+      <button class="icon-btn"><img src="./icons/icon-camera.svg" alt="相機"></button>
+    </div>
+
+    <!-- ✅ 右側：滑桿 -->
+    <div class="ui-section sliders">
+      <div class="slider-row">
+        <span class="slider-label">旋轉</span>
+        <input type="range" id="rotateSpeed" min="0" max="0.01" step="0.0005" value="0.003">
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">光源</span>
+        <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">視角</span>
+        <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+      </div>
+    </div>
+
+  </div>
+
   <!-- ✅ Three.js 主程式 -->
   <script type="module" src="./main.js"></script>
 
 </body>
 </html>
+
 
