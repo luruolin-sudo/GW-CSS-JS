@@ -2,52 +2,57 @@ import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
 import { OrbitControls } from "./libs/OrbitControls.js";
 import { EXRLoader } from "./libs/EXRLoader.js";
+import * as fflate from "./libs/fflate.module.js"; // ✅ EXRLoader 需要
 
-// ✅ 必須加入這行（ESM 版 fflate）
-import * as fflate from "./libs/fflate.module.js";
-
-// ✅ 定義設定值物件
+// ✅ 設定值（乾淨版）
 const settings = {
-  rotateSpeed: 0.003,   // ✅ 跟 HTML 的 value 一樣
-  ambientIntensity: 1, // 環境光強度
+  rotateSpeed: 0.003,   // 自動旋轉速度（0 = 不動）
+  ambientIntensity: 1   // 環境光強度
+};
 
-// 建立場景
+// ✅ 建立場景
 const scene = new THREE.Scene();
 
-// 建立 renderer
+// ✅ 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(1200, 600);
+renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// ✅ 視窗縮放
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
 
-// 建立相機
+// ✅ 建立相機
 const camera = new THREE.PerspectiveCamera(
   45,
-  renderer.domElement.width / renderer.domElement.height,
+  window.innerWidth / window.innerHeight,
   0.1,
   100
 );
 camera.position.set(1, 1, 0.2);
 camera.lookAt(0, 0, 0);
 
-// OrbitControls
+// ✅ OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.minDistance = 1;
 controls.maxDistance = 10;
 
-// 環境光
+// ✅ 環境光
 const ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity);
 scene.add(ambientLight);
 
-// ✅ 綁定控制面板事件
+// ✅ 控制面板事件
 document.getElementById("rotateSpeed").addEventListener("input", e => {
   settings.rotateSpeed = parseFloat(e.target.value);
+});
+
+document.getElementById("ambientIntensity").addEventListener("input", e => {
+  ambientLight.intensity = parseFloat(e.target.value);
 });
 
 document.getElementById("cameraFov").addEventListener("input", e => {
@@ -55,12 +60,7 @@ document.getElementById("cameraFov").addEventListener("input", e => {
   camera.updateProjectionMatrix();
 });
 
-document.getElementById("ambientIntensity").addEventListener("input", e => {
-  ambientLight.intensity = parseFloat(e.target.value);
-});
-
-
-// ✅ 載入 EXR HDRI 環境光
+// ✅ 載入 EXR HDRI
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 
@@ -71,12 +71,12 @@ new EXRLoader()
   .load("lebombo.exr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
-    scene.environment = envMap;   // ✅ 模型反射用
-    scene.background = envMap;    // ✅ 同時顯示背景
+    scene.environment = envMap;
+    scene.background = envMap;
 
-    // 建立球體來承載 HDRI
+    // ✅ 建立背景球體
     const geometry = new THREE.SphereGeometry(50, 64, 64);
-    geometry.scale(-1, 1, 1); // ✅ 反轉球體，讓貼圖在內側
+    geometry.scale(-1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     envMesh = new THREE.Mesh(geometry, material);
     scene.add(envMesh);
@@ -85,7 +85,7 @@ new EXRLoader()
     pmremGenerator.dispose();
   });
 
-// 載入 GLB 模型
+// ✅ 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
 loader.load("./model/BL-360.glb", function (gltf) {
@@ -93,14 +93,14 @@ loader.load("./model/BL-360.glb", function (gltf) {
   scene.add(model);
 });
 
-// 動畫函式
+// ✅ 動畫迴圈
 function animate() {
   requestAnimationFrame(animate);
 
-if (model && settings.rotateSpeed > 0) {
-  model.rotation.y += settings.rotateSpeed;
-}
-
+  // ✅ 自動旋轉（速度 = 0 就不動）
+  if (model && settings.rotateSpeed > 0) {
+    model.rotation.y += settings.rotateSpeed;
+  }
 
   controls.update();
   renderer.render(scene, camera);
