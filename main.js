@@ -1,7 +1,10 @@
 import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
 import { OrbitControls } from "./libs/OrbitControls.js";
-import { EXRLoader } from "./libs/EXRLoader.js"; // ✅ 載入 EXRLoader
+import { EXRLoader } from "./libs/EXRLoader.js";
+
+// ✅ 必須加入這行（ESM 版 fflate）
+import * as fflate from "./libs/fflate.module.js";
 
 // ✅ 定義設定值物件
 const settings = {
