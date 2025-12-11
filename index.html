@@ -1,147 +1,106 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8" />
-  <title>燈具 360° 展示</title>
+body {
+  margin: 0;
+  background: #111;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 
-  <style>
-    body {
-      margin: 0;
-      background: #111;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
 
-    canvas {
-      width: 100vw;
-      height: 100vh;
-      display: block;
-    }
+/* ✅ 底部工具列：更像 App */
+#ui-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 14px 26px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  color: #fff;
+  z-index: 10;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
 
-    /* ✅ 底部工具列 */
-    #ui-bar {
-      position: fixed;
-      left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      padding: 12px 20px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      z-index: 10;
-    }
+/* ✅ 區塊間距更緊湊 */
+.ui-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    .ui-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* ✅ 模型切換按鈕：像小卡片 */
+.model-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+}
+.model-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.model-btn.active {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+}
 
-    /* ✅ 模型切換按鈕 */
-    .model-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .model-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
+/* ✅ icon 按鈕：更大、更像 App */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.icon-btn img {
+  width: 22px;
+  height: 22px;
+  filter: invert(1);
+  opacity: 0.9;
+  transition: 0.2s;
+}
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.icon-btn:hover img {
+  opacity: 1;
+  filter: invert(1) brightness(1.4);
+}
 
-    /* ✅ icon 按鈕 */
-    .icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .icon-btn img {
-      width: 20px;
-      height: 20px;
-      filter: invert(1);
-      opacity: 0.9;
-      transition: 0.2s;
-    }
-    .icon-btn:hover img {
-      opacity: 1;
-      filter: invert(1) brightness(1.4);
-    }
-
-    /* ✅ 滑桿區 */
-    .sliders {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 6px;
-    }
-    .slider-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .slider-label {
-      width: 40px;
-      text-align: right;
-      font-size: 12px;
-      opacity: 0.8;
-    }
-    .slider-row input[type="range"] {
-      width: 160px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- ✅ 底部工具列 -->
-  <div id="ui-bar">
-
-    <!-- ✅ 左側：模型切換 -->
-    <div class="ui-section">
-      <button class="model-btn" data-model="BL-360.glb">4x1</button>
-      <button class="model-btn" data-model="BL-480.glb">2x2</button>
-    </div>
-
-    <!-- ✅ 中間：icon 功能 -->
-    <div class="ui-section">
-      <button class="icon-btn"><img src="./icons/icon-cube.svg" alt="模型"></button>
-      <button class="icon-btn"><img src="./icons/icon-light.svg" alt="光源"></button>
-      <button class="icon-btn"><img src="./icons/icon-camera.svg" alt="相機"></button>
-    </div>
-
-    <!-- ✅ 右側：滑桿 -->
-    <div class="ui-section sliders">
-      <div class="slider-row">
-        <span class="slider-label">旋轉</span>
-        <input type="range" id="rotateSpeed" min="0" max="0.01" step="0.0005" value="0.003">
-      </div>
-
-      <div class="slider-row">
-        <span class="slider-label">光源</span>
-        <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
-      </div>
-
-      <div class="slider-row">
-        <span class="slider-label">視角</span>
-        <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ✅ Three.js 主程式 -->
-  <script type="module" src="./main.js"></script>
-
-</body>
-</html>
+/* ✅ 滑桿區：更緊湊、更乾淨 */
+.sliders {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slider-label {
+  width: 36px;
+  text-align: right;
+  font-size: 11px;
+  opacity: 0.75;
+}
+.slider-row input[type="range"] {
+  width: 150px;
+  height: 4px;
+}
