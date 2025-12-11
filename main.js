@@ -10,7 +10,6 @@ import * as fflate from "./libs/fflate.module.js";
 const settings = {
   rotateSpeed: 0.003,   // ✅ 跟 HTML 的 value 一樣
   ambientIntensity: 1, // 環境光強度
-  envRotation: 0       // HDRI 環境旋轉角度
 
 // 建立場景
 const scene = new THREE.Scene();
