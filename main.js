@@ -9,7 +9,7 @@ import * as fflate from "./libs/fflate.module.js";
 // ✅ 定義設定值物件
 const settings = {
   autoRotate: false,   // 預設不旋轉
-  rotateSpeed: 0.01,   // 預設旋轉速度
+  rotateSpeed: 0.005,   // 預設旋轉速度
   ambientIntensity: 1, // 環境光強度
   envRotation: 0       // HDRI 環境旋轉角度
 };
@@ -53,9 +53,6 @@ document.getElementById("autoRotate").addEventListener("change", e => {
   settings.autoRotate = e.target.checked;
 });
 
-document.getElementById("rotateSpeed").addEventListener("input", e => {
-  settings.rotateSpeed = parseFloat(e.target.value);
-});
 
 document.getElementById("cameraFov").addEventListener("input", e => {
   camera.fov = parseFloat(e.target.value);
@@ -66,9 +63,6 @@ document.getElementById("ambientIntensity").addEventListener("input", e => {
   ambientLight.intensity = parseFloat(e.target.value);
 });
 
-document.getElementById("envRotation").addEventListener("input", e => {
-  settings.envRotation = THREE.MathUtils.degToRad(parseFloat(e.target.value));
-});
 
 // ✅ 載入 EXR HDRI 環境光
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -111,9 +105,6 @@ function animate() {
     model.rotation.y += settings.rotateSpeed;
   }
 
-  if (envMesh) {
-    envMesh.rotation.y = settings.envRotation; // ✅ HDRI 旋轉
-  }
 
   controls.update();
   renderer.render(scene, camera);
