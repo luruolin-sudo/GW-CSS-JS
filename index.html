@@ -47,21 +47,27 @@
 </head>
 <body>
   <!-- 控制面板 -->
-  <div id="controls">
-<label><input type="checkbox" id="autoRotate"> 自動旋轉</label>
+<div id="controls">
+  <label class="ctrl-item">
+    <span>自動旋轉</span>
+    <input type="checkbox" id="autoRotate">
+  </label>
 
-<label for="rotateSpeed">旋轉速度</label>
-<input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
+  <label class="ctrl-item">
+    <span>旋轉速度</span>
+    <input type="range" id="rotateSpeed" min="0.0005" max="0.05" step="0.001" value="0.01">
+  </label>
 
-<label for="ambientIntensity">環境光強度</label>
-<input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+  <label class="ctrl-item">
+    <span>相機透視</span>
+    <input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
+  </label>
 
-<label for="cameraFov">相機視角 (FOV)</label>
-<input type="range" id="cameraFov" min="20" max="100" step="1" value="45">
-
-<label for="envRotation">環境光旋轉</label>
-<input type="range" id="envRotation" min="0" max="360" step="1" value="0">
-  </div>
+  <label class="ctrl-item">
+    <span>環境光強度</span>
+    <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+  </label>
+</div>
 
   <!-- ✅ 先載入 fflate，避免 EXRLoader 報錯 -->
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.min.js"></script>
@@ -70,6 +76,7 @@
   <script type="module" src="./main.js"></script>
 </body>
 </html>
+
 
 
 
