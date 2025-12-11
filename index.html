@@ -75,19 +75,21 @@ canvas {
   cursor: pointer;
   transition: 0.2s;
 }
-.icon-btn img {
+.icon-btn svg {
   width: 22px;
   height: 22px;
-  filter: invert(1);
+  color: white;      /* 讓 fill="currentColor" 生效 */
   opacity: 0.9;
   transition: 0.2s;
 }
+
 .icon-btn:hover {
   background: rgba(255, 255, 255, 0.22);
 }
-.icon-btn:hover img {
+
+.icon-btn:hover svg {
   opacity: 1;
-  filter: invert(1) brightness(1.4);
+  color: #ffd700;    /* hover 時變亮或變色 */
 }
 
 /* ✅ 滑桿區：更緊湊、更乾淨 */
@@ -157,4 +159,5 @@ canvas {
 
 </body>
 </html>
+
 
