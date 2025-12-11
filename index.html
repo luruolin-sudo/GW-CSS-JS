@@ -5,100 +5,112 @@
   <title>燈具 360° 展示</title>
 
   <style>
-    body {
-      margin: 0;
-      background: #111;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+  body {
+  margin: 0;
+  background: #111;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 
-    canvas {
-      width: 100vw;
-      height: 100vh;
-      display: block;
-    }
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
 
-    /* ✅ 底部工具列 */
-    #ui-bar {
-      position: fixed;
-      left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      padding: 12px 20px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      z-index: 10;
-    }
+/* ✅ 底部工具列：更像 App */
+#ui-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 14px 26px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  color: #fff;
+  z-index: 10;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
 
-    .ui-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* ✅ 區塊間距更緊湊 */
+.ui-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    /* ✅ 模型切換按鈕 */
-    .model-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .model-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
+/* ✅ 模型切換按鈕：像小卡片 */
+.model-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+}
+.model-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.model-btn.active {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+}
 
-    /* ✅ icon 按鈕 */
-    .icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .icon-btn img {
-      width: 20px;
-      height: 20px;
-      filter: invert(1);
-      opacity: 0.9;
-      transition: 0.2s;
-    }
-    .icon-btn:hover img {
-      opacity: 1;
-      filter: invert(1) brightness(1.4);
-    }
+/* ✅ icon 按鈕：更大、更像 App */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.icon-btn img {
+  width: 22px;
+  height: 22px;
+  filter: invert(1);
+  opacity: 0.9;
+  transition: 0.2s;
+}
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.icon-btn:hover img {
+  opacity: 1;
+  filter: invert(1) brightness(1.4);
+}
 
-    /* ✅ 滑桿區 */
-    .sliders {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 6px;
-    }
-    .slider-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .slider-label {
-      width: 40px;
-      text-align: right;
-      font-size: 12px;
-      opacity: 0.8;
-    }
-    .slider-row input[type="range"] {
-      width: 160px;
-    }
+/* ✅ 滑桿區：更緊湊、更乾淨 */
+.sliders {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slider-label {
+  width: 36px;
+  text-align: right;
+  font-size: 11px;
+  opacity: 0.75;
+}
+.slider-row input[type="range"] {
+  width: 150px;
+  height: 4px;
+}
   </style>
 </head>
 
@@ -145,3 +157,4 @@
 
 </body>
 </html>
+
