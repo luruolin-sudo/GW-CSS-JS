@@ -98,15 +98,14 @@ new EXRLoader()
   .load("lebombo.exr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
-    // ✅ 正確：背景與環境都使用 PMREM 處理後的 envMap
     scene.environment = envMap;
     scene.background = envMap;
 
-    // ✅ 建立背景球體（使用 envMap，而不是原始 EXR）
+    // ✅ 背景球使用 PMREM 處理後的 envMap
     const geometry = new THREE.SphereGeometry(50, 64, 64);
     geometry.scale(-1, 1, 1);
 
-    const material = new THREE.MeshBasicMaterial({ map: envMap });
+    const material = new THREE.MeshBasicMaterial({ map: envMap }); // ✅ 正確用法
     envMesh = new THREE.Mesh(geometry, material);
 
     envMesh.rotation.y = THREE.MathUtils.degToRad(45);
