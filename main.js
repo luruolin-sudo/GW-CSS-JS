@@ -45,9 +45,9 @@ const camera = new THREE.PerspectiveCamera(
 const isMobile = window.innerWidth <= 768;
 
 // ✅ 根據裝置調整鏡頭距離
-const cameraZ = isMobile ? 4.5 : 1;   // 手機拉遠、桌機較近
-const cameraY = isMobile ? 1.2 : 1;     // 手機視角稍微往上
-const cameraX = isMobile ? 0.5 : 0.2;     // 手機視角更置中
+const cameraZ = isMobile ? 4.5 : 1.5;   // 手機拉遠、桌機較近
+const cameraY = isMobile ? 1.2 : 1.2;     // 手機視角稍微往上
+const cameraX = isMobile ? 0.5 : 0.5;     // 手機視角更置中
 
 // ✅ 套用相機位置
 camera.position.set(cameraX, cameraY, cameraZ);
@@ -106,8 +106,13 @@ new EXRLoader()
     // ✅ 建立背景球體
     const geometry = new THREE.SphereGeometry(50, 64, 64);
     geometry.scale(-1, 1, 1);
+
     const material = new THREE.MeshBasicMaterial({ map: texture });
     envMesh = new THREE.Mesh(geometry, material);
+
+    // ⭐ 正確放在這裡：Mesh 建立後才能旋轉
+    envMesh.rotation.y = THREE.MathUtils.degToRad(45); // ← 你要的角度
+
     scene.add(envMesh);
 
     texture.dispose();
