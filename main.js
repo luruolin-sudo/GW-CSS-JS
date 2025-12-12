@@ -47,11 +47,11 @@ const isMobile = window.innerWidth <= 768;
 // ✅ 根據裝置調整鏡頭距離
 const cameraZ = isMobile ? 3.0 : 0.9;   // 手機拉遠、桌機較近
 const cameraY = isMobile ? -0.15 : -0.15;     // 手機視角稍微往上  高度仰角
-const cameraX = isMobile ? -0.25 : -0.25;     // 手機視角更置中
+const cameraX = isMobile ? -0.3 : -0.3;     // 手機視角更置中
 
 // ✅ 套用相機位置
 camera.position.set(cameraX, cameraY, cameraZ);
-camera.lookAt(0.5, 0, 0);
+camera.lookAt(-0.5, 0, 0);
 
 // ✅ 視角也依裝置調整
 camera.fov = isMobile ? 40 : 45;
