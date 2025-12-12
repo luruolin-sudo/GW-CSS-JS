@@ -127,17 +127,15 @@ canvas {
    手機版排版（寬度小於 768px）
 ================================ */
 @media (max-width: 768px) {
-  /* ✅ 模型切換按鈕移到上方中央 */
   #ui-bar {
     position: fixed;
-    top: 16px;
+    top: 16px;               /* ✅ 距離畫面頂部 16px */
     left: 50%;
     transform: translateX(-50%);
     flex-direction: row;
     gap: 16px;
     z-index: 10;
   }
-
   .model-btn {
     padding: 12px 16px;
     font-size: 16px;
