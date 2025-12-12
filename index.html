@@ -21,10 +21,10 @@
 #icon-row {  /* ICON 與滑桿的整體位置區塊 */
   position: fixed;          /* 固定在畫面上，不會隨捲動移動 */
   left: 50%;                /* 水平置中（搭配 transform 使用） */
-  bottom: 10px;             /* 距離畫面底部 20px（控制整組高度） */
+  bottom: 20px;             /* 距離畫面底部 20px（控制整組高度） */
   transform: translateX(-50%); /* 讓整組真正水平置中 */
   display: flex;            /* 讓 ICON 與滑桿橫向排列 */
-  gap: 30px;                /* 三組 ICON 之間的水平間距 */
+  gap: 22px;                /* 三組 ICON 之間的水平間距 */
   z-index: 20;              /* 讓它顯示在最上層，不被其他元素遮住 */
 }
     .top-icon {
@@ -56,40 +56,49 @@
 }
     
 
- /* 底線（Chrome / Edge / Safari） */
+/* ================================
+   滑桿底線樣式（Chrome / Edge / Safari）
+   ================================ */
 .top-icon input[type="range"] {
-  width: 80px;
-  height: 12px;
-  appearance: none;
-  background: rgba(255,255,255,0.3);
-  border-radius: 8px;  /* ✅ 往上拉近 ICON */
+  width: 80px;                         /* 滑桿的寬度 */
+  height: 12px;                        /* 滑桿的高度（底線粗細） */
+  appearance: none;                    /* 移除瀏覽器預設樣式 */
+  background: rgba(255,255,255,0.3);   /* 底線顏色（白色 30% 透明） */
+  border-radius: 8px;                  /* 底線圓角 */
 }
 
-/* 滑塊（Chrome / Edge / Safari） */
+/* ================================
+   滑塊 Thumb（Chrome / Edge / Safari）
+   ================================ */
 .top-icon input[type="range"]::-webkit-slider-thumb {
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  appearance: none;                    /* 移除預設樣式 */
+  width: 22px;                         /* 滑塊寬度 */
+  height: 22px;                        /* 滑塊高度 */
+  background: rgba(255, 255, 255, 0.9);/* 滑塊顏色（白色 90%） */
+  border-radius: 50%;                  /* 圓形滑塊 */
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6); /* 外發光效果 */
 }
 
-/* 底線（Firefox） */
+/* ================================
+   滑桿底線樣式（Firefox）
+   ================================ */
 .top-icon input[type="range"]::-moz-range-track {
-  height: 12px;
-  background: rgba(255,255,255,0.3);  /* ✅ 白色底線 */
-  border-radius: 8px;
+  height: 12px;                        /* 底線高度（粗細） */
+  background: rgba(255,255,255,0.3);   /* 白色底線（30% 透明） */
+  border-radius: 8px;                  /* 底線圓角 */
 }
 
-/* 滑塊（Firefox） */
+/* ================================
+   滑塊 Thumb（Firefox）
+   ================================ */
 .top-icon input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
- background: rgba(255,255,255,0.9);  /* ✅ 白色滑塊 */
-  border-radius: 50%;
-  border: none;
+  width: 22px;                         /* 滑塊寬度 */
+  height: 22px;                        /* 滑塊高度 */
+  background: rgba(255,255,255,0.9);   /* 白色滑塊（90% 透明） */
+  border-radius: 50%;                  /* 圓形滑塊 */
+  border: none;                        /* 移除預設邊框 */
 }
+
   
 #ui-bar {
   position: fixed;      /* ✅ 固定在畫面上 */
@@ -114,23 +123,24 @@
 
 /* 左下角方塊 */
 .model-btn {
-  padding: 30px 30px;
-  border-radius: 6px; 
-  background: rgba(255, 255, 255, 0.10);
-  border: 3px solid rgba(255, 255, 255, 0.35);
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.2s;
+  padding: 24px 24px;    /* 按鈕內距（決定按鈕大小） */
+  border-radius: 6px;     /* 按鈕圓角（4px = 方形） */
+  background: rgba(255, 255, 255, 0.20);  /* 背景為白色 10% 透明度 */
+  border: 3px solid rgba(255, 255, 255, 0.35); /* 白色 35% 透明邊框 */
+  color: #fff;  /* 文字顏色為白色 */
+  cursor: pointer;   /* 滑鼠移上去變成可點擊手勢 */
+  font-size: 16px;    /* 字體大小 */
+  transition: 0.2s;    /* 滑過、點擊時的動畫過渡 */
 }
-
+    
+/* 滑鼠移到按鈕上時的效果 */
     .model-btn:hover {
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.22); /* 背景變亮一些 */
     }
-
+/* 按鈕被選取（active）時的效果 */
     .model-btn.active {
-      background: rgba(255, 255, 255, 0.35);
-      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.35); /* 背景更亮 */
+      border-color: rgba(255, 255, 255, 0.8); /* 邊框變更白 */
     }
   </style>
 </head>
@@ -172,6 +182,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
