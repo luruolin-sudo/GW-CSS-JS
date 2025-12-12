@@ -101,15 +101,7 @@ new EXRLoader()
     scene.environment = envMap;
     scene.background = envMap;
 
-    // ✅ 背景球使用 PMREM 處理後的 envMap
-    const geometry = new THREE.SphereGeometry(50, 64, 64);
-    geometry.scale(-1, 1, 1);
 
-    const material = new THREE.MeshBasicMaterial({ map: envMap }); // ✅ 正確用法
-    envMesh = new THREE.Mesh(geometry, material);
-
-    envMesh.rotation.y = THREE.MathUtils.degToRad(45);
-    scene.add(envMesh);
 
     texture.dispose();
     pmremGenerator.dispose();
