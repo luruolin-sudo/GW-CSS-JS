@@ -99,7 +99,7 @@ canvas {
 
   /* ✅ 模型切換按鈕固定在畫面頂部 */
   #ui-bar {
-    position: absolute;   /* ✅ 改成 absolute */
+    position: absolute;
     top: 16px;
     left: 50%;
     transform: translateX(-50%);
@@ -113,13 +113,12 @@ canvas {
 
   /* ✅ icon + 滑桿區塊移到底部中央 */
   #icon-row {
-    position: absolute;   /* ✅ 改成 absolute */
+    position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
   }
-}
 
   .icon-cube,
   .icon-light,
@@ -129,4 +128,3 @@ canvas {
   }
 
 } /* ✅ 正確結束 RWD 區塊 */
-
