@@ -127,27 +127,41 @@ canvas {
    手機版排版（寬度小於 768px）
 ================================ */
 @media (max-width: 768px) {
+  /* ✅ 模型切換按鈕移到上方中央 */
   #ui-bar {
+    position: fixed;
+    top: 16px;
     left: 50%;
-    bottom: 20px;
     transform: translateX(-50%);
     flex-direction: row;
     gap: 16px;
+    z-index: 10;
   }
 
   .model-btn {
-    padding: 16px;
+    padding: 12px 16px;
     font-size: 16px;
   }
 
+  /* ✅ icon + 滑桿區塊移到底部中央，橫向排列 */
   #icon-row {
-    flex-direction: column;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
     gap: 16px;
-    bottom: 100px;
+    z-index: 20;
+  }
+
+  .top-icon {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
 
   .top-icon input[type="range"] {
-    width: 100px;
+    width: 80px;
   }
 
   .icon-cube,
