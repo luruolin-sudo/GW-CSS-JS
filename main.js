@@ -113,21 +113,10 @@ new EXRLoader()
   });
 
 // ======================================================
-// ✅ 模型切換系統（最終版）
+// ✅ 模型切換系統（保持當下視角與背景）
 // ======================================================
 let currentModel = null;
 let isFirstLoad = true;
-
-// ✅ 用來記住第一次載入後的視角
-let savedCameraPos = null;
-let savedCameraTarget = null;
-
-// ✅ 統一視角（只用在第一次載入）
-function resetCamera() {
-  camera.position.set(cameraX, cameraY, cameraZ);
-  controls.target.set(0, 0, 0);
-  controls.update();
-}
 
 // ✅ 舊模型旋轉離場
 function rotateOut(model, onComplete) {
@@ -172,7 +161,7 @@ function rotateIn(model) {
   animate();
 }
 
-// ✅ 載入模型（含視角記憶功能）
+// ✅ 載入模型（不再重置視角）
 function loadModel(modelPath) {
   const loader = new GLTFLoader();
 
@@ -183,17 +172,12 @@ function loadModel(modelPath) {
     newModel.position.set(0, 0, 0);
     newModel.rotation.set(0, 0, 0);
 
-    // ✅ 如果不是第一次載入 → 切換模型
     if (currentModel && !isFirstLoad) {
       rotateOut(currentModel, () => {
         currentModel = newModel;
         scene.add(currentModel);
 
-        // ✅ 恢復第一次載入後的視角
-        camera.position.copy(savedCameraPos);
-        controls.target.copy(savedCameraTarget);
-        controls.update();
-
+        // ✅ 不重置視角、不改背景
         rotateIn(currentModel);
       });
 
@@ -202,17 +186,11 @@ function loadModel(modelPath) {
       currentModel = newModel;
       scene.add(currentModel);
 
-      // ✅ 使用預設視角
-      resetCamera();
-
-      // ✅ 記住第一次載入後的視角
-      savedCameraPos = camera.position.clone();
-      savedCameraTarget = controls.target.clone();
-
       isFirstLoad = false;
     }
   });
 }
+
 
 // ======================================================
 // ✅ 左下角按鈕事件
