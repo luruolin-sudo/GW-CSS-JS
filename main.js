@@ -151,6 +151,30 @@ function rotateIn(model) {
   animate();
 }
 
+// ✅ ✅ ✅ 這裡才是你要貼「修改後 loadModel」的地方
+function loadModel(modelPath) {
+  const loader = new GLTFLoader();
+
+  loader.load(modelPath, (gltf) => {
+    const newModel = gltf.scene;
+
+    // ✅ 不是第一次 → 執行旋轉切換
+    if (currentModel && !isFirstLoad) {
+      rotateOut(currentModel, () => {
+        currentModel = newModel;
+        scene.add(currentModel);
+        rotateIn(currentModel);
+      });
+    } else {
+      // ✅ 第一次載入 → 不旋轉
+      currentModel = newModel;
+      scene.add(currentModel);
+
+      isFirstLoad = false; // ✅ 下一次開始才會有動畫
+    }
+  });
+}
+
 // ✅ 載入模型（統一管理）
 function loadModel(modelPath) {
   const loader = new GLTFLoader();
