@@ -77,7 +77,12 @@ document.getElementById("rotateSpeed").addEventListener("input", e => {
 });
 
 document.getElementById("ambientIntensity").addEventListener("input", e => {
-  ambientLight.intensity = parseFloat(e.target.value);
+  const val = parseFloat(e.target.value);
+
+  ambientLight.intensity = val;
+
+  // ✅ 同步背景 EXR 亮度
+  renderer.toneMappingExposure = val;
 });
 
 document.getElementById("cameraFov").addEventListener("input", e => {
