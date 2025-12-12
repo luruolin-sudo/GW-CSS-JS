@@ -21,7 +21,7 @@
     #icon-row {
       position: fixed;
       left: 50%;
-      bottom: 120px;
+      bottom: 60px;
       transform: translateX(-50%);
       display: flex;
       gap: 60px;
@@ -87,21 +87,21 @@
       cursor: pointer;
     }
 
-    #ui-bar {
+#ui-bar {
   position: fixed;
   left: 32px;
   bottom: 32px;
   transform: none;
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      padding: 18px 32px;
-      border-radius: 28px;
-      background: rgba(0, 0, 0, 0.40);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-      z-index: 10;
-    }
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;        /* 不需要膠囊 padding */
+  border-radius: 0;  /* 不需要圓角 */
+  background: none;  /* 移除黑色背景 */
+  backdrop-filter: none;
+  box-shadow: none;
+  z-index: 10;
+}
 
     .ui-section {
       display: flex;
@@ -109,16 +109,16 @@
       gap: 12px;
     }
 
-    .model-btn {
-      padding: 6px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      background: rgba(255, 255, 255, 0.10);
-      color: #fff;
-      cursor: pointer;
-      font-size: 13px;
-      transition: 0.2s;
-    }
+.model-btn {
+  padding: 6px 12px;
+  border-radius: 4px; /* ✅ 方形 */
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
 
     .model-btn:hover {
       background: rgba(255, 255, 255, 0.22);
@@ -169,6 +169,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
