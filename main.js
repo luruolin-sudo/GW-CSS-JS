@@ -118,7 +118,7 @@ function rotateOut(model, onComplete) {
   function animate() {
     progress += 0.05;
 
-    model.rotation.y += 0.10; // ✅ 旋轉速度
+    model.rotation.y += 0.08; // ✅ 旋轉速度
     model.position.y -= 0.01; // ✅ 微微下降（更自然）
 
     if (progress >= 1) {
@@ -143,7 +143,7 @@ function rotateIn(model) {
   function animate() {
     progress += 0.05;
 
-    model.rotation.y += 0.10; // ✅ 旋轉進場  + - 控制旋轉方向
+    model.rotation.y -= 0.08; // ✅ 旋轉進場  + - 控制旋轉方向
     model.position.y += 0.01; // ✅ 微微上升
 
     if (progress >= 1) return;
