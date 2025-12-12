@@ -42,14 +42,29 @@
       opacity: 0.9;
     }
 
-    .top-icon input[type="range"] {
-      width: 120px;
-      height: 3px;
-      appearance: none;
-      background: rgba(255,255,255,0.3);
-      border-radius: 2px;
+  .top-icon input[type="range"] {
+  width: 120px;
+  height: 8px;   //控制底線厚度
+  appearance: none;
+  background: rgba(255,255,255,0.3); //半透明白底
+  border-radius: 8px;  //讓底線變圓
     }
 
+    .top-icon input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;    //控制滑塊大小
+  height: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;  //完全圓形
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);  //增加亮感、立體感
+  cursor: pointer;     
+}
+
+.top-icon input[type="range"]::-webkit-slider-thumb:hover {
+  background: white;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+    
     .top-icon input[type="range"]::-webkit-slider-thumb {
       appearance: none;
       width: 14px;
@@ -156,4 +171,5 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
