@@ -46,8 +46,8 @@ const isMobile = window.innerWidth <= 768;
 
 // ✅ 根據裝置調整鏡頭距離
 const cameraZ = isMobile ? 4.5 : 1.5;   // 手機拉遠、桌機較近
-const cameraY = isMobile ? 1.2 : 1.2;     // 手機視角稍微往上
-const cameraX = isMobile ? 0.5 : 0.5;     // 手機視角更置中
+const cameraY = isMobile ? 1.2 : 0.5;     // 手機視角稍微往上
+const cameraX = isMobile ? 0.5 : 0.2;     // 手機視角更置中
 
 // ✅ 套用相機位置
 camera.position.set(cameraX, cameraY, cameraZ);
