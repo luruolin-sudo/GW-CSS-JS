@@ -130,7 +130,7 @@ loadModel("./model/BL-360.glb");
 // ✅ ✅ ✅ 預設讓 4ft 按鈕亮起（修正後）
 document
   .querySelector('[data-model="./model/BL-360.glb"]')
-  .classList.add("active"
+.classList.add("active");
 
 
 
