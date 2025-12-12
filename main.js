@@ -179,19 +179,23 @@ function loadModel(modelPath) {
   loader.load(modelPath, (gltf) => {
     const newModel = gltf.scene;
 
-    // ✅ 如果不是第一次載入 → 執行旋轉切換
+    // 如果不是第一次載入 → 執行旋轉切換
     if (currentModel && !isFirstLoad) {
       rotateOut(currentModel, () => {
         currentModel = newModel;
         scene.add(currentModel);
-        rotateIn(currentModel); // ✅ 新模型旋轉進場
+
+        resetCamera();          // ✅ 每次模型切換都回到初始視角
+        rotateIn(currentModel); // 旋轉進場
       });
     } else {
-      // ✅ 第一次載入 → 不旋轉
+      // 第一次載入 → 不旋轉
       currentModel = newModel;
       scene.add(currentModel);
 
-      isFirstLoad = false; // ✅ 下一次開始才會有動畫
+      resetCamera();            // ⭐ 第一次也要確保在正確視角
+
+      isFirstLoad = false;
     }
   });
 }
