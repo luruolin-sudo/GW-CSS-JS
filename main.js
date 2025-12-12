@@ -127,8 +127,10 @@ modelButtons.forEach((btn) => {
 // ✅ ✅ ✅ 預設載入 BL‑360（4ft）
 loadModel("./model/BL-360.glb");
 
-// ✅ ✅ ✅ 預設讓 4ft 按鈕亮起
-document.querySelector('[data-model="BL-360.glb"]').classList.add("active");
+// ✅ ✅ ✅ 預設讓 4ft 按鈕亮起（修正後）
+document
+  .querySelector('[data-model="./model/BL-360.glb"]')
+  .classList.add("active"
 
 
 
