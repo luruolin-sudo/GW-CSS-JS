@@ -124,23 +124,25 @@ canvas {
 }
 
 /* ================================
-   手機版排版（寬度小於 768px）
+   ✅ 手機版排版（寬度小於 768px）
 ================================ */
 @media (max-width: 768px) {
+
+  /* ✅ 模型切換按鈕固定在畫面頂部 */
   #ui-bar {
-     position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
- }
-}
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+
   .model-btn {
     padding: 12px 16px;
     font-size: 16px;
   }
 
-  /* ✅ icon + 滑桿區塊移到底部中央，橫向排列 */
+  /* ✅ icon + 滑桿區塊移到底部中央 */
   #icon-row {
     position: fixed;
     bottom: 20px;
@@ -167,4 +169,5 @@ canvas {
     width: 48px;
     height: 48px;
   }
-}
+
+} /* ✅ 正確結束 RWD 區塊 */
