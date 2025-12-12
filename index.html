@@ -18,15 +18,14 @@
       display: block;
     }
 
-    #icon-row {
-      position: fixed;
-      left: 50%;
-      bottom: 60px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 60px;
-      z-index: 20;
-    }
+#icon-row {  /* ICON 與滑桿的整體位置區塊 */
+  position: fixed;          /* 固定在畫面上，不會隨捲動移動 */
+  left: 50%;                /* 水平置中（搭配 transform 使用） */
+  bottom: 10px;             /* 距離畫面底部 20px（控制整組高度） */
+  transform: translateX(-50%); /* 讓整組真正水平置中 */
+  display: flex;            /* 讓 ICON 與滑桿橫向排列 */
+  gap: 30px;                /* 三組 ICON 之間的水平間距 */
+  z-index: 20;              /* 讓它顯示在最上層，不被其他元素遮住 */
 
     .top-icon {
       display: flex;
@@ -109,8 +108,8 @@
       gap: 12px;
     }
 
-.model-btn {
-  padding: 6px 12px;
+.model-btn {  // 左下角方塊
+  padding: 24px 24px;
   border-radius: 4px; /* ✅ 方形 */
   background: rgba(255, 255, 255, 0.10);
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -169,6 +168,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
