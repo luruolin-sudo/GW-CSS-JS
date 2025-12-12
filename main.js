@@ -137,13 +137,12 @@ document.querySelector('[data-model="BL-360.glb"]').classList.add("active");
 function animate() {
   requestAnimationFrame(animate);
 
-  // ✅ 自動旋轉（速度 = 0 就不動）
-  if (model && settings.rotateSpeed > 0) {
-    model.rotation.y += settings.rotateSpeed;
+  // ✅ 自動旋轉模型（使用 currentModel）
+  if (currentModel) {
+    currentModel.rotation.y += settings.rotateSpeed;
   }
 
   controls.update();
   renderer.render(scene, camera);
 }
-
 animate();
