@@ -56,38 +56,41 @@
 }
     
 
-  .top-icon input[type="range"] {
+ /* 底線（Chrome / Edge / Safari） */
+.top-icon input[type="range"] {
   width: 120px;
-  height: 80px;   //控制底線厚度
+  height: 16px;
   appearance: none;
-  background: rgba(255,255,255,0.3); //半透明白底
-  border-radius: 8px;  //讓底線變圓
-    }
+  background: rgba(255,255,255,0.3);
+  border-radius: 8px;
+}
 
-    .top-icon input[type="range"]::-webkit-slider-thumb {
+/* 滑塊（Chrome / Edge / Safari） */
+.top-icon input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  width: 50px;    //控制滑塊大小 22
-  height: 50px;   
+  width: 22px;
+  height: 22px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;  //完全圓形
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);  //增加亮感、立體感
-  cursor: pointer;     
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
-.top-icon input[type="range"]::-webkit-slider-thumb:hover {
-  background: white;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+/* 底線（Firefox） */
+.top-icon input[type="range"]::-moz-range-track {
+  height: 16px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 8px;
 }
-    
-    .top-icon input[type="range"]::-webkit-slider-thumb {
-      appearance: none;
-      width: 14px;
-      height: 14px;
-      background: white;
-      border-radius: 50%;
-      cursor: pointer;
-    }
 
+/* 滑塊（Firefox） */
+.top-icon input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  border: none;
+}
+  
 #ui-bar {
   position: fixed;
   left: 32px;
@@ -170,6 +173,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
