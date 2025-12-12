@@ -4,6 +4,38 @@
   <meta charset="UTF-8" />
   <title>UI Final</title>
 
+  <!-- ✅ 讓手機版正常顯示比例 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* ✅ 桌機版（預設） */
+    .bottom-toolbar {
+      display: flex;
+      gap: 20px;
+    }
+
+    .model-btn {
+      flex-shrink: 0;
+    }
+
+    /* ✅ 手機版 */
+    @media (max-width: 768px) {
+      .bottom-toolbar {
+        flex-direction: column; /* ✅ 改成直排 */
+        gap: 12px;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .model-btn {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+      }
+    }
+  </style>
+</head>
+
   <style>
     body {
       margin: 0;
@@ -181,6 +213,27 @@
     </div>
   </div>
 
+
+  <div class="model-switch">
+  <button data-model="./model/BL-360.glb">4ft</button>
+  <button data-model="./model/duck.glb">2ft</button>
+</div>
+
+<div class="bottom-toolbar">
+  <div class="control-group">
+    <img src="cube.svg">
+    <input type="range" id="rotateSpeed">
+  </div>
+  <div class="control-group">
+    <img src="light.svg">
+    <input type="range" id="ambientIntensity">
+  </div>
+  <div class="control-group">
+    <img src="camera.svg">
+    <input type="range" id="cameraFov">
+  </div>
+</div>
   <script type="module" src="./main.js"></script>
 
 </body>
+
