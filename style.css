@@ -128,14 +128,12 @@ canvas {
 ================================ */
 @media (max-width: 768px) {
   #ui-bar {
-    position: fixed;
-    top: 16px;              /* ✅ 永遠固定在畫面頂部 */
-    left: 50%;
-    transform: translateX(-50%); /* ✅ 水平置中 */
-    flex-direction: row;
-    gap: 16px;
-    z-index: 9999;          /* ✅ 確保永遠在最上層 */
-  }
+     position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+ }
 }
   .model-btn {
     padding: 12px 16px;
