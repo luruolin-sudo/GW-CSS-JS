@@ -51,7 +51,7 @@ const cameraX = isMobile ? -0.25 : -0.25;     // 手機視角更置中
 
 // ✅ 套用相機位置
 camera.position.set(cameraX, cameraY, cameraZ);
-camera.lookAt(0, 0, 0.1);
+camera.lookAt(0.5, 0, 0);
 
 // ✅ 視角也依裝置調整
 camera.fov = isMobile ? 40 : 45;
