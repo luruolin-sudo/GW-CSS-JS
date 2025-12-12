@@ -4,36 +4,11 @@
   <meta charset="UTF-8" />
   <title>UI Final</title>
 
-  <!-- ✅ 讓手機版正常顯示比例 -->
+  <!-- ✅ 手機版 RWD 必備 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* ✅ 桌機版（預設） */
-    .bottom-toolbar {
-      display: flex;
-      gap: 20px;
-    }
-
-    .model-btn {
-      flex-shrink: 0;
-    }
-
-    /* ✅ 手機版 */
-    @media (max-width: 768px) {
-      .bottom-toolbar {
-        flex-direction: column; /* ✅ 改成直排 */
-        gap: 12px;
-        width: 90%;
-        margin: 0 auto;
-      }
-
-      .model-btn {
-        width: 48px;
-        height: 48px;
-        flex-shrink: 0;
-      }
-    }
-  </style>
+  <!-- ✅ 連結外部 CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
   <style>
@@ -236,6 +211,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
