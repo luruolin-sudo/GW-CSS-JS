@@ -144,6 +144,50 @@
       background: rgba(255, 255, 255, 0.35); /* 背景更亮 */
       border-color: rgba(255, 255, 255, 0.8); /* 邊框變更白 */
     }
+
+/* ✅ 手機版（螢幕寬度小於 768px） */
+@media (max-width: 768px) {
+
+  /* ✅ 底部控制列：改成自動換行、避免壓縮 */
+  .bottom-toolbar {
+    display: flex;
+    flex-wrap: wrap;        /* ✅ 允許換行 */
+    justify-content: center;
+    padding: 8px 10px;
+    gap: 10px;              /* ✅ 按鈕間距 */
+  }
+
+  /* ✅ 每個按鈕：縮小但不壓縮 */
+  .model-btn,
+  .icon-btn {
+    width: 48px;            /* ✅ 固定寬度（避免被壓扁） */
+    height: 48px;
+    flex-shrink: 0;         /* ✅ 不允許縮小 */
+  }
+
+  /* ✅ SVG 圖示：限制大小避免滿版 */
+  .icon-btn img,
+  .model-btn img,
+  .icon-btn svg,
+  .model-btn svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* ✅ 滑桿區域：縮小高度 */
+  .slider-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  /* ✅ 避免 UI 蓋住整個畫面 */
+  .ui-panel {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+}
+
+
   </style>
 </head>
 
@@ -184,6 +228,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
