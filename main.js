@@ -23,6 +23,9 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.8; // ✅ 降低 20% 亮度
+
 
 // ✅ 視窗縮放
 window.addEventListener("resize", () => {
