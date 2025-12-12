@@ -4,22 +4,22 @@ import { OrbitControls } from "./libs/OrbitControls.js";
 import { EXRLoader } from "./libs/EXRLoader.js";
 import * as fflate from "./libs/fflate.module.js"; // ✅ EXRLoader 需要
 
-// ===============================
-// ✅ 設定值（旋轉速度、環境光強度）
-// ===============================
+// ======================================================
+// ✅ 基本設定（旋轉速度、環境光強度）
+// ======================================================
 const settings = {
-  rotateSpeed: 0.003,
+  rotateSpeed: 0,   // ✅ 一開始不旋轉（你要求的）
   ambientIntensity: 1
 };
 
-// ===============================
+// ======================================================
 // ✅ 建立場景
-// ===============================
+// ======================================================
 const scene = new THREE.Scene();
 
-// ===============================
-// ✅ 建立 renderer
-// ===============================
+// ======================================================
+// ✅ 建立 Renderer
+// ======================================================
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -31,9 +31,9 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
 });
 
-// ===============================
+// ======================================================
 // ✅ 建立相機
-// ===============================
+// ======================================================
 const camera = new THREE.PerspectiveCamera(
   45,
   window.innerWidth / window.innerHeight,
@@ -43,24 +43,24 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(1, 1, 0.2);
 camera.lookAt(0, 0, 0);
 
-// ===============================
+// ======================================================
 // ✅ OrbitControls（滑鼠控制）
-// ===============================
+// ======================================================
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.minDistance = 1;
 controls.maxDistance = 10;
 
-// ===============================
+// ======================================================
 // ✅ 環境光
-// ===============================
+// ======================================================
 const ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity);
 scene.add(ambientLight);
 
-// ===============================
-// ✅ 控制面板事件（滑桿）
-// ===============================
+// ======================================================
+// ✅ UI 滑桿事件
+// ======================================================
 document.getElementById("rotateSpeed").addEventListener("input", e => {
   settings.rotateSpeed = parseFloat(e.target.value);
 });
@@ -74,9 +74,9 @@ document.getElementById("cameraFov").addEventListener("input", e => {
   camera.updateProjectionMatrix();
 });
 
-// ===============================
+// ======================================================
 // ✅ 載入 HDRI（EXR）
-// ===============================
+// ======================================================
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 
@@ -107,6 +107,9 @@ new EXRLoader()
 
 // ✅ 目前場景中的模型
 let currentModel = null;
+
+// ✅ 是否為第一次載入（用來取消第一次旋轉動畫）
+let isFirstLoad = true;
 
 // ✅ 舊模型旋轉離場
 function rotateOut(model, onComplete) {
@@ -151,19 +154,19 @@ function rotateIn(model) {
   animate();
 }
 
-// ✅ ✅ ✅ 這裡才是你要貼「修改後 loadModel」的地方
+// ✅ 載入模型（統一管理）
 function loadModel(modelPath) {
   const loader = new GLTFLoader();
 
   loader.load(modelPath, (gltf) => {
     const newModel = gltf.scene;
 
-    // ✅ 不是第一次 → 執行旋轉切換
+    // ✅ 如果不是第一次載入 → 執行旋轉切換
     if (currentModel && !isFirstLoad) {
       rotateOut(currentModel, () => {
         currentModel = newModel;
         scene.add(currentModel);
-        rotateIn(currentModel);
+        rotateIn(currentModel); // ✅ 新模型旋轉進場
       });
     } else {
       // ✅ 第一次載入 → 不旋轉
@@ -175,32 +178,9 @@ function loadModel(modelPath) {
   });
 }
 
-// ✅ 載入模型（統一管理）
-function loadModel(modelPath) {
-  const loader = new GLTFLoader();
-
-  loader.load(modelPath, (gltf) => {
-    const newModel = gltf.scene;
-
-    // ✅ 如果有舊模型 → 旋轉離場
-    if (currentModel) {
-      rotateOut(currentModel, () => {
-        currentModel = newModel;
-        scene.add(currentModel);
-        rotateIn(currentModel); // ✅ 新模型旋轉進場
-      });
-    } else {
-      // ✅ 第一次載入
-      currentModel = newModel;
-      scene.add(currentModel);
-      rotateIn(currentModel);
-    }
-  });
-}
-
-// ===============================
-// ✅ 左下角按鈕事件
-// ===============================
+// ======================================================
+// ✅ 左下角按鈕事件（切換模型）
+// ======================================================
 const modelButtons = document.querySelectorAll(".model-btn");
 
 modelButtons.forEach((btn) => {
@@ -219,9 +199,9 @@ document
   .querySelector('[data-model="./model/BL-360.glb"]')
   .classList.add("active");
 
-// ===============================
+// ======================================================
 // ✅ 動畫迴圈（自動旋轉）
-// ===============================
+// ======================================================
 function animate() {
   requestAnimationFrame(animate);
 
