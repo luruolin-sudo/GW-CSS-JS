@@ -1,0 +1,78 @@
+/* ✅ 桌機版排版 */
+.model-switch {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.model-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  background-color: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.model-btn.active {
+  background-color: #ccc;
+}
+
+.bottom-toolbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px;
+  z-index: 10;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-group img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.control-group input[type="range"] {
+  width: 160px;
+}
+
+/* ✅ 手機版排版 */
+@media (max-width: 768px) {
+  .model-switch {
+    top: 10px;
+    gap: 12px;
+  }
+
+  .model-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .bottom-toolbar {
+    flex-direction: column;
+    gap: 16px;
+    width: 90%;
+    bottom: 10px;
+  }
+
+  .control-group {
+    gap: 10px;
+  }
+
+  .control-group input[type="range"] {
+    width: 100%;
+  }
+}
+
