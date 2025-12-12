@@ -2,13 +2,13 @@ import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
 import { OrbitControls } from "./libs/OrbitControls.js";
 import { EXRLoader } from "./libs/EXRLoader.js";
-import * as fflate from "./libs/fflate.module.js"; // ✅ EXRLoader 需要
+import * as fflate from "./libs/fflate.module.js";
 
 // ======================================================
-// ✅ 基本設定（旋轉速度、環境光強度）
+// ✅ 基本設定
 // ======================================================
 const settings = {
-  rotateSpeed: 0,   // ✅ 一開始不旋轉（你要求的）
+  rotateSpeed: 0,
   ambientIntensity: 1
 };
 
@@ -18,14 +18,15 @@ const settings = {
 const scene = new THREE.Scene();
 
 // ======================================================
-// ✅ 建立 Renderer
+// ✅ Renderer
 // ======================================================
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.8; // ✅ 降低 20% 亮度
 
+// ✅ 曝光調整（背景不會過亮）
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.85;
 
 // ✅ 視窗縮放
 window.addEventListener("resize", () => {
@@ -35,7 +36,7 @@ window.addEventListener("resize", () => {
 });
 
 // ======================================================
-// ✅ 建立相機
+// ✅ 相機設定（手機與桌機）
 // ======================================================
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -44,23 +45,17 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-// ✅ 判斷是否為手機（螢幕寬度 <= 768px）
 const isMobile = window.innerWidth <= 768;
 
-// ✅ 根據裝置調整鏡頭距離
-const cameraZ = isMobile ? 3.0 : 0.9;   // 手機拉遠、桌機較近
-const cameraY = isMobile ? -0.15 : -0.15;     // 手機視角稍微往上  高度仰角
-const cameraX = isMobile ? -0.3 : -0.3;     // 手機視角更置中
+const cameraZ = isMobile ? 3.0 : 0.9;
+const cameraY = -0.15;
+const cameraX = -0.3;
 
-// ✅ 套用相機位置
 camera.position.set(cameraX, cameraY, cameraZ);
-camera.lookAt(-1, 0, 2);
+camera.lookAt(0, 0, 0);
 
-// ✅ 視角也依裝置調整
-camera.fov = isMobile ? 45 : 45;
-camera.updateProjectionMatrix();
 // ======================================================
-// ✅ OrbitControls（滑鼠控制）
+// ✅ OrbitControls
 // ======================================================
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -103,19 +98,18 @@ new EXRLoader()
   .load("lebombo.exr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
+    // ✅ 正確：背景與環境都使用 PMREM 處理後的 envMap
     scene.environment = envMap;
     scene.background = envMap;
 
-    // ✅ 建立背景球體
+    // ✅ 建立背景球體（使用 envMap，而不是原始 EXR）
     const geometry = new THREE.SphereGeometry(50, 64, 64);
     geometry.scale(-1, 1, 1);
 
-    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const material = new THREE.MeshBasicMaterial({ map: envMap });
     envMesh = new THREE.Mesh(geometry, material);
 
-    // ⭐ 正確放在這裡：Mesh 建立後才能旋轉
-    envMesh.rotation.y = THREE.MathUtils.degToRad(45); // ← 你要的角度
-
+    envMesh.rotation.y = THREE.MathUtils.degToRad(45);
     scene.add(envMesh);
 
     texture.dispose();
@@ -123,14 +117,17 @@ new EXRLoader()
   });
 
 // ======================================================
-// ✅ ✅ ✅ 模型切換系統（旋轉切換動畫）
+// ✅ 模型切換系統
 // ======================================================
-
-// ✅ 目前場景中的模型
 let currentModel = null;
-
-// ✅ 是否為第一次載入（用來取消第一次旋轉動畫）
 let isFirstLoad = true;
+
+// ✅ 統一視角
+function resetCamera() {
+  camera.position.set(cameraX, cameraY, cameraZ);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
 
 // ✅ 舊模型旋轉離場
 function rotateOut(model, onComplete) {
@@ -139,8 +136,8 @@ function rotateOut(model, onComplete) {
   function animate() {
     progress += 0.05;
 
-    model.rotation.y += 0.08; // ✅ 旋轉速度
-    model.position.y -= 0.01; // ✅ 微微下降（更自然）
+    model.rotation.y += 0.08;
+    model.position.y -= 0.01;
 
     if (progress >= 1) {
       scene.remove(model);
@@ -156,16 +153,16 @@ function rotateOut(model, onComplete) {
 
 // ✅ 新模型旋轉進場
 function rotateIn(model) {
-  model.rotation.y = Math.PI; // ✅ 從背面開始
-  model.position.y = -0.2;    // ✅ 從下方開始
+  model.rotation.y = Math.PI;
+  model.position.y = -0.2;
 
   let progress = 0;
 
   function animate() {
     progress += 0.05;
 
-    model.rotation.y -= 0.08; // ✅ 旋轉進場  + - 控制旋轉方向
-    model.position.y += 0.01; // ✅ 微微上升
+    model.rotation.y -= 0.08;
+    model.position.y += 0.01;
 
     if (progress >= 1) return;
 
@@ -175,36 +172,37 @@ function rotateIn(model) {
   animate();
 }
 
-// ✅ 載入模型（統一管理）
+// ✅ 載入模型
 function loadModel(modelPath) {
   const loader = new GLTFLoader();
 
   loader.load(modelPath, (gltf) => {
     const newModel = gltf.scene;
 
-    // 如果不是第一次載入 → 執行旋轉切換
+    // ✅ 統一模型中心點
+    newModel.position.set(0, 0, 0);
+    newModel.rotation.set(0, 0, 0);
+
     if (currentModel && !isFirstLoad) {
       rotateOut(currentModel, () => {
         currentModel = newModel;
         scene.add(currentModel);
 
-        resetCamera();          // ✅ 每次模型切換都回到初始視角
-        rotateIn(currentModel); // 旋轉進場
+        resetCamera();
+        rotateIn(currentModel);
       });
     } else {
-      // 第一次載入 → 不旋轉
       currentModel = newModel;
       scene.add(currentModel);
 
-      resetCamera();            // ⭐ 第一次也要確保在正確視角
-
+      resetCamera();
       isFirstLoad = false;
     }
   });
 }
 
 // ======================================================
-// ✅ 左下角按鈕事件（切換模型）
+// ✅ 左下角按鈕事件
 // ======================================================
 const modelButtons = document.querySelectorAll(".model-btn");
 
@@ -218,14 +216,11 @@ modelButtons.forEach((btn) => {
   });
 });
 
-// ✅ 預設載入 4ft（BL-360）
+// ✅ 預設載入
 loadModel("./model/BL-360.glb");
-document
-  .querySelector('[data-model="./model/BL-360.glb"]')
-  .classList.add("active");
 
 // ======================================================
-// ✅ 動畫迴圈（自動旋轉）
+// ✅ 動畫迴圈
 // ======================================================
 function animate() {
   requestAnimationFrame(animate);
