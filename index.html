@@ -7,3 +7,39 @@
 
   <!-- ✅ 連結外部 CSS -->
   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ✅ Three.js canvas 會自動插入，不需要手動寫 -->
+
+  <!-- ✅ 左下角模型切換按鈕 -->
+  <div id="ui-bar">
+    <div class="ui-section">
+      <button class="model-btn active" data-model="./model/BL-360.glb">4ft</button>
+      <button class="model-btn" data-model="./model/duck.glb">2ft</button>
+    </div>
+  </div>
+
+  <!-- ✅ 底部中間 ICON + 滑桿 -->
+  <div id="icon-row">
+    <div class="top-icon">
+      <img src="./icons/icon-cube.svg" class="icon-cube">
+      <input type="range" id="rotateSpeed" min="0" max="0.05" step="0.001" value="0">
+    </div>
+
+    <div class="top-icon">
+      <img src="./icons/icon-light.svg" class="icon-light">
+      <input type="range" id="ambientIntensity" min="0" max="2" step="0.1" value="1">
+    </div>
+
+    <div class="top-icon">
+      <img src="./icons/icon-camera.svg" class="icon-camera">
+      <input type="range" id="cameraFov" min="30" max="90" step="1" value="45">
+    </div>
+  </div>
+
+  <!-- ✅ Three.js 主程式 -->
+  <script type="module" src="main.js"></script>
+
+</body>
