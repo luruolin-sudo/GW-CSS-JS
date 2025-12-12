@@ -59,10 +59,10 @@
  /* 底線（Chrome / Edge / Safari） */
 .top-icon input[type="range"] {
   width: 120px;
-  height: 16px;
+  height: 12px;
   appearance: none;
   background: rgba(255,255,255,0.3);
-  border-radius: 8px;
+  border-radius: 8px;  * ✅ 往上拉近 ICON */
 }
 
 /* 滑塊（Chrome / Edge / Safari） */
@@ -77,8 +77,8 @@
 
 /* 底線（Firefox） */
 .top-icon input[type="range"]::-moz-range-track {
-  height: 16px;
-  background: rgba(255,255,255,0.3);
+  height: 12px;
+  background: rgba(255,255,255,0.3);  /* ✅ 白色底線 */
   border-radius: 8px;
 }
 
@@ -86,25 +86,24 @@
 .top-icon input[type="range"]::-moz-range-thumb {
   width: 22px;
   height: 22px;
-  background: rgba(255, 255, 255, 0.9);
+ background: rgba(255,255,255,0.9);  /* ✅ 白色滑塊 */
   border-radius: 50%;
   border: none;
 }
   
 #ui-bar {
-  position: fixed;
-  left: 32px;
-  bottom: 32px;
-  transform: none;
+  position: fixed;      /* ✅ 固定在畫面上 */
+  left: 32px;           /* ✅ 靠左 32px */
+  bottom: 32px;         /* ✅ 靠底 32px */
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0;        /* 不需要膠囊 padding */
-  border-radius: 0;  /* 不需要圓角 */
-  background: none;  /* 移除黑色背景 */
+  padding: 0;
+  background: none;
+  border-radius: 0;
   backdrop-filter: none;
   box-shadow: none;
-  z-index: 10;
+  z-index: 10;          /* ✅ 確保不被遮住 */
 }
 
 .ui-section {
@@ -173,6 +172,7 @@
   <script type="module" src="./main.js"></script>
 
 </body>
+
 
 
 
