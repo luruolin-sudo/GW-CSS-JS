@@ -85,13 +85,53 @@ new EXRLoader()
     pmremGenerator.dispose();
   });
 
-// ✅ 載入 GLB 模型
-let model;
-const loader = new GLTFLoader();
-loader.load("./model/BL-360.glb", function (gltf) {
-  model = gltf.scene;
-  scene.add(model);
+// ✅ 載入 GLB 模型（改成統一用 loadModel 控制）
+let currentModel = null;
+
+// ✅ 載入模型的函式（統一管理）
+function loadModel(modelPath) {
+  const loader = new GLTFLoader();
+
+  loader.load(modelPath, (gltf) => {
+    // 移除舊模型
+    if (currentModel) {
+      scene.remove(currentModel);
+    }
+
+    // 加入新模型
+    currentModel = gltf.scene;
+    scene.add(currentModel);
+  });
+}
+
+// ✅ 取得所有模型切換按鈕
+const modelButtons = document.querySelectorAll(".model-btn");
+
+// ✅ 設定按鈕點擊事件
+modelButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    // 移除所有 active 樣式
+    modelButtons.forEach((b) => b.classList.remove("active"));
+
+    // 加上 active 樣式
+    btn.classList.add("active");
+
+    // 取得 data-model 的路徑
+    const modelPath = btn.getAttribute("data-model");
+
+    // ✅ 載入模型
+    loadModel(modelPath);
+  });
 });
+
+// ✅ ✅ ✅ 預設載入 BL‑360（4ft）
+loadModel("./model/BL-360.glb");
+
+// ✅ ✅ ✅ 預設讓 4ft 按鈕亮起
+document.querySelector('[data-model="BL-360.glb"]').classList.add("active");
+
+
+
 
 // ✅ 動畫迴圈
 function animate() {
